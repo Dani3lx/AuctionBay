@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.utils.timezone import now
 
 class User(AbstractUser):
     pass
@@ -11,7 +11,7 @@ class Listing(models.Model):
     listing_desc = models.CharField(max_length=256)
     starting_bid = models.IntegerField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_date = models.TimeField(auto_now=False, auto_now_add=False)
+    post_date = models.DateTimeField(default=now, editable=False)
 
 class Bid(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)

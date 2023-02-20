@@ -1,17 +1,41 @@
+import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .forms import ListingForm
+from .models import User, Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    listings = Listing.objects.all()
+    return render(request, "auctions/index.html", {
+        'listings' : listings,
+    })
+
 
 def create(request):
-    return None
+    template_name = 'auctions/create.html'
+    if request.method == "POST":
+        form = ListingForm(request.POST)
+        if (form.is_valid()):
+            title = form.cleaned_data["listing_name"]
+            desc = form.cleaned_data["listing_desc"]
+            bid = form.cleaned_data["starting_bid"]
+            listing = Listing(listing_name=title, listing_desc=desc,
+                              starting_bid=bid, creator=request.user)
+            listing.save()
+            return render(request, "auctions/index.html", {
+                'success': f"The {title} listing  has been successfully added",
+            })
+
+    return render(request, template_name, {
+        'form': ListingForm,
+    })
+
 
 def login_view(request):
     if request.method == "POST":

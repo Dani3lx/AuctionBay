@@ -4,7 +4,7 @@ from .models import Listing
 class ListingForm(forms.ModelForm):
     class Meta:
         model = Listing
-        fields = ('listing_name', 'listing_desc', 'starting_bid')
+        fields = ('listing_name', 'listing_desc', 'starting_bid', 'picture')
 
         widgets = {
             'listing_name': forms.TextInput(attrs={'class' : 'form-control', 'maxlength' : "64"}),

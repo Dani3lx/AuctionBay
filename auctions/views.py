@@ -27,13 +27,13 @@ def details(request, item):
 def create(request):
     template_name = 'auctions/create.html'
     if request.method == "POST":
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if (form.is_valid()):
             title = form.cleaned_data["listing_name"]
             desc = form.cleaned_data["listing_desc"]
             bid = form.cleaned_data["starting_bid"]
             listing = Listing(listing_name=title, listing_desc=desc,
-                              starting_bid=bid, creator=request.user)
+                              starting_bid=bid, creator=request.user, picture=request.FILES['picture'])
             listing.save()
             return HttpResponseRedirect(reverse("index"))
 

@@ -14,9 +14,10 @@ class Listing(models.Model):
     listing_name = models.CharField(primary_key=True, max_length=64)
     listing_desc = models.CharField(max_length=256)
     starting_bid = models.IntegerField()
-    current_bid = models.ForeignKey(Bid, on_delete=models.CASCADE, null=True)
+    current_bid = models.ForeignKey(Bid, on_delete=models.CASCADE, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     post_date = models.DateTimeField(default=now, editable=False)
+    picture = models.ImageField(blank=True, null=True)
 
 
 class Comment(models.Model):

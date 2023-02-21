@@ -13,7 +13,14 @@ from .models import User, Listing
 def index(request):
     listings = Listing.objects.all()
     return render(request, "auctions/index.html", {
-        'listings' : listings,
+        'listings': listings,
+    })
+
+
+def details(request, item):
+    listing = Listing.objects.get(listing_name=item)
+    return render(request, "auctions/details.html", {
+        'listing': listing,
     })
 
 
@@ -31,7 +38,7 @@ def create(request):
             listings = Listing.objects.all()
             return render(request, "auctions/index.html", {
                 'success': f"The {title} listing  has been successfully added",
-                'listings' : listings,
+                'listings': listings,
             })
 
     return render(request, template_name, {

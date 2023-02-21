@@ -9,11 +9,13 @@
     <ul>
         {% for listing in listings %}
         <li>
-            <div>
-                <h1>{{ listing.listing_name }}</h1>
-                <h2>Price: {{ listing.starting_bid }}</h2>
-                <h3>{{ listing.listing_desc }}</h3>
-            </div>
+            <a href="{% url 'details' listing.listing_name %}">
+                <div>
+                    <h1>{{ listing.listing_name }}</h1>
+                    <h2>Price: {{ listing.starting_bid }}</h2>
+                    <h3>{{ listing.listing_desc }}</h3>
+                </div>
+            </a>
         </li>
         {% endfor %}
     </ul>

@@ -10,7 +10,7 @@
         {% for listing in listings %}
         <li class="list-group-item">
             <a href="{% url 'details' listing.listing_name %}">
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3" style="max-width: 70%; border: none;">
                     <div class="row g-0">
                       <div class="col-md-4">
                         {% if listing.picture %}

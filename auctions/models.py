@@ -6,17 +6,18 @@ class User(AbstractUser):
     pass
 
 # Listing names are unique
+class Bid(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.IntegerField()
+
 class Listing(models.Model):
     listing_name = models.CharField(primary_key=True, max_length=64)
     listing_desc = models.CharField(max_length=256)
     starting_bid = models.IntegerField()
+    current_bid = models.ForeignKey(Bid, on_delete=models.CASCADE, null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     post_date = models.DateTimeField(default=now, editable=False)
 
-class Bid(models.Model):
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.IntegerField()
-    item = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

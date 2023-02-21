@@ -7,8 +7,8 @@ class ListingForm(forms.ModelForm):
         fields = ('listing_name', 'listing_desc', 'starting_bid')
 
         widgets = {
-            'listing_name': forms.TextInput(attrs={'class' : 'form-control'}),
-            'listing_desc': forms.TextInput(attrs={'class' : 'form-control'}),
+            'listing_name': forms.TextInput(attrs={'class' : 'form-control', 'maxlength' : "64"}),
+            'listing_desc': forms.TextInput(attrs={'class' : 'form-control', 'maxlength' : "256"}),
             'starting_bid': forms.NumberInput(attrs={'class' : 'form-control'}),
         }
 

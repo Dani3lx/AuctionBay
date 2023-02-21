@@ -35,11 +35,7 @@ def create(request):
             listing = Listing(listing_name=title, listing_desc=desc,
                               starting_bid=bid, creator=request.user)
             listing.save()
-            listings = Listing.objects.all()
-            return render(request, "auctions/index.html", {
-                'success': f"The {title} listing  has been successfully added",
-                'listings': listings,
-            })
+            return HttpResponseRedirect(reverse("index"))
 
     return render(request, template_name, {
         'form': ListingForm,

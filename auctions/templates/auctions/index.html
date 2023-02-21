@@ -13,7 +13,7 @@
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                       <div class="col-md-4">
-                        {% if listing.picture != None %}
+                        {% if listing.picture %}
                         <img src="{{ listing.picture.url }}" class="img-fluid rounded-start" alt="{{ listing.listing_name }}">
                         {% endif %}
                       </div>

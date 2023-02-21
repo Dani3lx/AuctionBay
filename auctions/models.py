@@ -17,7 +17,7 @@ class Listing(models.Model):
     current_bid = models.ForeignKey(Bid, on_delete=models.CASCADE, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     post_date = models.DateTimeField(default=now, editable=False)
-    picture = models.ImageField(blank=True, null=True)
+    picture = models.ImageField(blank=True, null=True, upload_to="images/")
 
 
 class Comment(models.Model):

@@ -33,7 +33,7 @@ def create(request):
             desc = form.cleaned_data["listing_desc"]
             bid = form.cleaned_data["starting_bid"]
             listing = Listing(listing_name=title, listing_desc=desc,
-                              starting_bid=bid, creator=request.user, picture=request.FILES['picture'])
+                              starting_bid=bid, creator=request.user, picture=request.FILES.get('picture', '/images/default.png'))
             listing.save()
             return HttpResponseRedirect(reverse("index"))
 

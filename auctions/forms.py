@@ -10,5 +10,6 @@ class ListingForm(forms.ModelForm):
             'listing_name': forms.TextInput(attrs={'class' : 'form-control', 'maxlength' : "64"}),
             'listing_desc': forms.TextInput(attrs={'class' : 'form-control', 'maxlength' : "256"}),
             'starting_bid': forms.NumberInput(attrs={'class' : 'form-control'}),
+            'picture':forms.FileInput(attrs={'class' : 'form-control'}),
         }
 

@@ -1,3 +1,15 @@
 body {
     padding: 10px;
 }
+
+.listing_url {
+    color: black;
+}
+
+.listing_url:link,
+.listing_url:visited,
+.listing_url:hover,
+.listing_url:active {
+    text-decoration: none;
+    background-color: aliceblue;
+}

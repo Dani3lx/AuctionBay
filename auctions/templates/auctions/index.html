@@ -9,7 +9,7 @@
     <ul class="list-group list-group-flush">
         {% for listing in listings %}
         <li class="list-group-item">
-            <a href="{% url 'details' listing.listing_name %}">
+            <a href="{% url 'details' listing.listing_name %}" class="listing_url">
                 <div class="card mb-3" style="max-width: 70%; border: none;">
                     <div class="row g-0">
                       <div class="col-md-4">
@@ -21,7 +21,7 @@
                         <div class="card-body">
                           <h5 class="card-title">{{ listing.listing_name }}</h5>
                           <p class="card-text">Price: {{ listing.starting_bid }}</p>
-                          <p class="card-text"><small class="text-muted">{{ listing.listing_desc }}</small></p>
+                          <p class="card-text"><small class="text-muted">{{ listing.post_date }}</small></p>
                         </div>
                       </div>
                     </div>

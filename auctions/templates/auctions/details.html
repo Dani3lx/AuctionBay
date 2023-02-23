@@ -16,7 +16,7 @@
 
             <div class="card">
                 <div class="card-header">
-                  Details
+                    Details
                 </div>
                 <div class="card-body">
                     <p class="card-title">Starting bid: ${{listing.starting_bid}}</p>
@@ -25,9 +25,16 @@
                     {% else %}
                     <p><strong>No bids so far</strong></p><br>
                     {% endif %}
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                    {% if user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'add' listing.listing_name %}" class="btn btn-primary">Add to watchlist</a>
+                        <a href="#" class="btn btn-primary">Remove from watchlist</a>
+                    </div>
+
+                    {% endif %}
                 </div>
-              </div>
+            </div>
 
 
 

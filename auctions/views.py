@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import ListingForm
-from .models import User, Listing
+from .models import User, Listing, Watchlist
 
 
 def index(request):
@@ -15,6 +15,24 @@ def index(request):
     return render(request, "auctions/index.html", {
         'listings': listings,
     })
+
+
+def add(request, item):
+
+    curr = request.user
+
+    try:
+        watchlist = Watchlist.objects.filter(user=curr)
+    except Watchlist.DoesNotExist:
+        watchlist = None
+
+    itemObj = Listing.objects.get(listing_name=item)
+
+    if not watchlist.filter(item=itemObj).exists():
+        watchitem = Watchlist(user=curr, item=itemObj)
+        watchitem.save()
+
+    return HttpResponseRedirect(reverse('details', args=(item,)))
 
 
 def details(request, item):

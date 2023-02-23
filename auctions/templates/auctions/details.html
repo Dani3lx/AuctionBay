@@ -1,13 +1,41 @@
 {% extends "auctions/layout.html" %}
 {% block body %}
-<h1>
-    {{listing.listing_name}}
-</h1>
 
-<h2>
-    {{listing.listing_desc}}
-</h2>
-<h2>
-    {{listing.starting_bid}}
-</h2>
+
+<div class="container text-center">
+    <h1>{{listing.listing_name}}</h1>
+    <p><em>{{listing.post_date}}</em></p>
+    <p>{{listing.listing_desc}}</p>
+    <br>
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="{{listing.picture.url}}" alt="{{listing.listing_name}}" width="60%">
+        </div>
+
+        <div class="col-sm-6">
+
+            <div class="card">
+                <div class="card-header">
+                  Details
+                </div>
+                <div class="card-body">
+                    <p class="card-title">Starting bid: ${{listing.starting_bid}}</p>
+                    {% if listing.current_bid %}
+                    <p class="card-text"><strong>Starting bid: ${{listing.current_bid}}</strong></p><br>
+                    {% else %}
+                    <p><strong>No bids so far</strong></p><br>
+                    {% endif %}
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
 {% endblock %}

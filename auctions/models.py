@@ -24,3 +24,8 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=512)
     item = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+
+class Watchlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Listing, on_delete=models.CASCADE)

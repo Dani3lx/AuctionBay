@@ -30,6 +30,8 @@
                 </div>
                 <div class="card-body">
                     <p class="card-title">Starting bid: ${{listing.starting_bid}}</p>
+                    <p class="card-title">Creator: {{listing.creator.username}}</p>
+
                     {% if listing.current_bid %}
                     <p class="card-text"><strong>Starting bid: ${{listing.current_bid}}</strong></p><br>
                     {% else %}

@@ -17,6 +17,26 @@ def index(request):
     })
 
 
+def watchlist(request):
+    curr = request.user
+    if curr.is_authenticated:
+        try:
+            watchlist = Watchlist.objects.all()
+        except Watchlist.DoesNotExist:
+            watchlist = None
+
+        if watchlist is not None:
+            listings = []
+            for element in watchlist:
+                if element.user == curr:
+                    listings.append(element.item)
+            return render(request, "auctions/index.html", {
+                'listings': listings,
+            })
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
+
 def add(request, item):
 
     curr = request.user

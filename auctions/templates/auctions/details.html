@@ -3,6 +3,15 @@
 
 
 <div class="container text-center">
+    {% if alert %}
+    <div class="alert alert-success" role="alert">
+        {{alert}}
+    </div>
+    {% elif error %}
+    <div class="alert alert-danger" role="alert">
+        {{error}}
+    </div> 
+    {% endif %}
     <h1>{{listing.listing_name}}</h1>
     <p><em>{{listing.post_date}}</em></p>
     <p>{{listing.listing_desc}}</p>

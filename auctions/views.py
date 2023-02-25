@@ -31,8 +31,15 @@ def add(request, item):
     if not watchlist.filter(item=itemObj).exists():
         watchitem = Watchlist(user=curr, item=itemObj)
         watchitem.save()
+        return render(request, "auctions/details.html", {
+            'listing': itemObj,
+            'alert': f"{item} has been added to the watchlist"
+        })
 
-    return HttpResponseRedirect(reverse('details', args=(item,)))
+    return render(request, "auctions/details.html", {
+        'listing': itemObj,
+        'error': f"{item} has already been added"
+    })
 
 
 def details(request, item):

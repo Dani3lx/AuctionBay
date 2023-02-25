@@ -32,6 +32,7 @@ def watchlist(request):
                     listings.append(element.item)
             return render(request, "auctions/index.html", {
                 'listings': listings,
+                'watchlist': "Watchlist"
             })
     else:
         return HttpResponseRedirect(reverse("index"))

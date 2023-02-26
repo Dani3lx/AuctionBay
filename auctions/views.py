@@ -6,8 +6,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import ListingForm
-from .models import User, Listing, Watchlist
+from .forms import ListingForm, BidForm
+from .models import User, Listing, Watchlist, Bid
 
 
 def index(request):
@@ -56,6 +56,7 @@ def remove(request, item):
         'rerror': f"{item} is not in watchlist"
     })
 
+
 def add(request, item):
 
     curr = request.user
@@ -83,8 +84,35 @@ def add(request, item):
 
 def details(request, item):
     listing = Listing.objects.get(listing_name=item)
+    if request.user.is_authenticated and request.method == "POST":
+        curr = request.user
+        form = BidForm(request.POST)
+        if (form.is_valid()):
+            bid = form.cleaned_data["bid_amount"]
+            itemObj = Listing.objects.get(listing_name=item)
+            currBid = itemObj.current_bid
+
+            if (not currBid and bid > itemObj.starting_bid) or (currBid and bid > currBid.value):
+                bidObj = Bid(buyer=curr, value=bid)
+                bidObj.save()
+                itemObj.current_bid = bidObj
+                itemObj.save()
+                return render(request, "auctions/details.html", {
+                    'listing': itemObj,
+                    'form': BidForm,
+                    'success': "Your bid has been sucessfully placed"
+                })
+            
+            return render(request, "auctions/details.html", {
+                'listing': itemObj,
+                'form': BidForm,
+                'failure': "Your bid is too low"
+            })
+
+
     return render(request, "auctions/details.html", {
         'listing': listing,
+        'form': BidForm,
     })
 
 

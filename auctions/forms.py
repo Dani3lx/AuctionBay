@@ -13,3 +13,5 @@ class ListingForm(forms.ModelForm):
             'picture':forms.FileInput(attrs={'class' : 'form-control form-control-sm', 'id': 'formFileSm'}),
         }
 
+class BidForm(forms.Form):
+    bid_amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class' : 'form-control'}))

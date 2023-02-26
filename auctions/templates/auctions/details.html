@@ -41,13 +41,28 @@
                     <p class="card-title">Creator: {{listing.creator.username}}</p>
 
                     {% if listing.current_bid %}
-                    <p class="card-text"><strong>Starting bid: ${{listing.current_bid}}</strong></p><br>
+                    <p class="card-text"><strong>Current bid: ${{listing.current_bid.value}}</strong></p><br>
                     {% else %}
                     <p><strong>No bids so far</strong></p><br>
                     {% endif %}
 
                     {% if user.is_authenticated %}
                     <div>
+                        {% if success %}
+                        <div class="alert alert-success" role="alert">
+                            {{success}}
+                        </div>
+                        {% elif failure %}
+                        <div class="alert alert-danger" role="alert">
+                            {{failure}}
+                        </div>
+                        {% endif %}
+                        <form action = "" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" class="form-control">
+                        </form>
+                        <br>
                         <a href="{% url 'add' listing.listing_name %}" class="btn btn-primary">Add to watchlist</a>
                         <a href="{% url 'remove' listing.listing_name %}" class="btn btn-primary">Remove from watchlist</a>
                     </div>

@@ -38,6 +38,24 @@ def watchlist(request):
         return HttpResponseRedirect(reverse("index"))
 
 
+def remove(request, item):
+    curr = request.user
+    try:
+        watchlist = Watchlist.objects.filter(user=curr)
+    except Watchlist.DoesNotExist:
+        watchlist = None
+    itemObj = Listing.objects.get(listing_name=item)
+    if watchlist.filter(item=itemObj).exists():
+        watchlist.filter(item=itemObj).delete()
+        return render(request, "auctions/details.html", {
+            'listing': itemObj,
+            'ralert': f"{item} has been removed"
+        })
+    return render(request, "auctions/details.html", {
+        'listing': itemObj,
+        'rerror': f"{item} is not in watchlist"
+    })
+
 def add(request, item):
 
     curr = request.user

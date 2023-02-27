@@ -81,6 +81,15 @@
             <div class="card text-dark">
                 <div class="card-body p-4">
                     <h4 class="mb-0">Comments</h4>
+                    <br>
+
+                    <div class="mb-3">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {{form2}}
+                        </form>
+                    </div>
+
                     {% if comments %}
                     {% for comment in comments %}
                     <div class="card-body p-4">
@@ -89,7 +98,7 @@
                                 <h6 class="fw-bold mb-1">{{comment.user.username}}</h6>
                                 <div class="d-flex align-items-center mb-3">
                                     <p class="mb-0">
-                                      {{comment.post_date}}
+                                        {{comment.post_date}}
                                     </p>
                                 </div>
                                 <p class="mb-0">

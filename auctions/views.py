@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import ListingForm, BidForm
+from .forms import ListingForm, BidForm, CommentForm
 from .models import User, Listing, Watchlist, Bid, Comment
 
 
@@ -47,14 +47,8 @@ def remove(request, item):
     itemObj = Listing.objects.get(listing_name=item)
     if watchlist.filter(item=itemObj).exists():
         watchlist.filter(item=itemObj).delete()
-        return render(request, "auctions/details.html", {
-            'listing': itemObj,
-            'ralert': f"{item} has been removed"
-        })
-    return render(request, "auctions/details.html", {
-        'listing': itemObj,
-        'rerror': f"{item} is not in watchlist"
-    })
+
+    return HttpResponseRedirect(reverse("details", args=[item]))
 
 
 def add(request, item):
@@ -71,15 +65,8 @@ def add(request, item):
     if not watchlist.filter(item=itemObj).exists():
         watchitem = Watchlist(user=curr, item=itemObj)
         watchitem.save()
-        return render(request, "auctions/details.html", {
-            'listing': itemObj,
-            'alert': f"{item} has been added to the watchlist"
-        })
 
-    return render(request, "auctions/details.html", {
-        'listing': itemObj,
-        'error': f"{item} has already been added"
-    })
+    return HttpResponseRedirect(reverse("details", args=[item]))
 
 
 def details(request, item):
@@ -87,10 +74,13 @@ def details(request, item):
     comments = Comment.objects.filter(item=listing)
     if request.user.is_authenticated and request.method == "POST":
         curr = request.user
-        form = BidForm(request.POST)
+        itemObj = Listing.objects.get(listing_name=item)
+        form = BidForm(request.POST or None)
+        commentForm = CommentForm(request.POST or None)
+
         if (form.is_valid()):
             bid = form.cleaned_data["bid_amount"]
-            itemObj = Listing.objects.get(listing_name=item)
+
             currBid = itemObj.current_bid
 
             if (not currBid and bid > itemObj.starting_bid) or (currBid and bid > currBid.value):
@@ -102,20 +92,28 @@ def details(request, item):
                     'listing': itemObj,
                     'form': BidForm,
                     'success': "Your bid has been sucessfully placed",
-                    'comments': comments
+                    'comments': comments,
+                    'form2': commentForm
                 })
 
             return render(request, "auctions/details.html", {
                 'listing': itemObj,
                 'form': BidForm,
                 'failure': "Your bid is too low",
-                'comments': comments
+                'comments': comments,
+                'form2': commentForm
             })
 
+        elif (commentForm.is_valid()):
+            content = commentForm.cleaned_data["content"]
+            if content != '':
+                comment = Comment(user=curr, item=itemObj, content=content)
+                comment.save()
     return render(request, "auctions/details.html", {
         'listing': listing,
         'form': BidForm,
-        'comments': comments
+        'comments': comments,
+        'form2': CommentForm
     })
 
 

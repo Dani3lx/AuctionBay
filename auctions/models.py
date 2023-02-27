@@ -27,7 +27,7 @@ class Listing(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.CharField(max_length=512)
+    content = models.CharField(max_length=512, blank=True)
     item = models.ForeignKey(Listing, on_delete=models.CASCADE)
     post_date = models.DateTimeField(default=now, editable=False)
 

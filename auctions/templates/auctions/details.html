@@ -15,11 +15,11 @@
     {% elif error %}
     <div class="alert alert-danger" role="alert">
         {{error}}
-    </div> 
+    </div>
     {% elif rerror %}
     <div class="alert alert-danger" role="alert">
         {{rerror}}
-    </div> 
+    </div>
     {% endif %}
     <h1>{{listing.listing_name}}</h1>
     <p><em>{{listing.post_date}}</em></p>
@@ -57,27 +57,56 @@
                             {{failure}}
                         </div>
                         {% endif %}
-                        <form action = "" method="POST">
+                        <form action="" method="POST">
                             {% csrf_token %}
                             {{ form }}
                             <input type="submit" class="form-control">
                         </form>
                         <br>
                         <a href="{% url 'add' listing.listing_name %}" class="btn btn-primary">Add to watchlist</a>
-                        <a href="{% url 'remove' listing.listing_name %}" class="btn btn-primary">Remove from watchlist</a>
+                        <a href="{% url 'remove' listing.listing_name %}" class="btn btn-primary">Remove from
+                            watchlist</a>
                     </div>
 
                     {% endif %}
                 </div>
             </div>
-
-
-
         </div>
-
-
     </div>
 </div>
 
+<div class="container my-6 py-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10">
+            <div class="card text-dark">
+                <div class="card-body p-4">
+                    <h4 class="mb-0">Comments</h4>
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-start">
+                            <div>
+                                <h6 class="fw-bold mb-1">{{comment.user.username}}</h6>
+                                <div class="d-flex align-items-center mb-3">
+                                    <p class="mb-0">
+                                      March 07, 2021
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                    {{comment.content}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-0" />
+                    {% endfor %}
+                    {% else %}
+                    <hr>
+                    <h6 class="fw-bold mb-1">No comments</h6>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% endblock %}
+    {% endblock %}

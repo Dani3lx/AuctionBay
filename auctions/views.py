@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import ListingForm, BidForm
-from .models import User, Listing, Watchlist, Bid
+from .models import User, Listing, Watchlist, Bid, Comment
 
 
 def index(request):
@@ -84,6 +84,7 @@ def add(request, item):
 
 def details(request, item):
     listing = Listing.objects.get(listing_name=item)
+    comments = Comment.objects.filter(item=listing)
     if request.user.is_authenticated and request.method == "POST":
         curr = request.user
         form = BidForm(request.POST)
@@ -100,19 +101,21 @@ def details(request, item):
                 return render(request, "auctions/details.html", {
                     'listing': itemObj,
                     'form': BidForm,
-                    'success': "Your bid has been sucessfully placed"
+                    'success': "Your bid has been sucessfully placed",
+                    'comments': comments
                 })
-            
+
             return render(request, "auctions/details.html", {
                 'listing': itemObj,
                 'form': BidForm,
-                'failure': "Your bid is too low"
+                'failure': "Your bid is too low",
+                'comments': comments
             })
-
 
     return render(request, "auctions/details.html", {
         'listing': listing,
         'form': BidForm,
+        'comments': comments
     })
 
 
